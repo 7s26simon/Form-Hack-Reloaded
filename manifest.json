@@ -1,17 +1,20 @@
 {
   "name": "Hack the Form",
-  "description": "A usefull add-on for web developers to view hidden inputs in form.",
-  "version": "0.3",
+  "description": "A useful add-on for web developers to view hidden inputs in form.",
+  "version": "0.4",
   "permissions": [
     "activeTab",
-    "tabs"
+    "storage"
   ],
-
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"],
+    "run_at": "document_idle"
+  }],
   "icons": {
     "48": "icons/icon-48.png",
     "96": "icons/icon-96.png"
   },
-
   "background": {
     "scripts": ["main.js"],
     "persistent": false
