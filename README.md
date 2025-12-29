@@ -1,13 +1,22 @@
-# Form Hack
-
-> This addon uses APIs that are available from Firefox 47 onwards.
+This addon uses APIs available from Firefox 47 onwards.
 
 ## What it does
 
-Displays a simple button in the menu bar that toggles hidden inputs in the active tab.
+Displays a browser action button that **toggles hidden form inputs on/off persistently** in the active tab.
 
-To display the button, the extension registers a [browserAction](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/browserAction) in the manifest.
+## How it works
 
-A non-persistent background script will listen for tab events and update the browserAction icon correspondingly. It also listens for `browserAction.onClicked` events to show or hide the hidden inputs when the user has clicked the icon.
+- **Toggle button**: Registers a `browserAction` in the manifest. Clicking flips the `enabled` state in `chrome.storage.local`.
+- **Manual toggle**: Background script (`main.js`) immediately applies changes to current page via `tabs.executeScript`.
+- **Auto-persist**: Content script (`content.js`) runs on every page load (`document_idle`), checking storage state and auto-unhiding fields if enabled.
+- **Visual state**: Supports badge/title updates for ON/OFF feedback (optional).
 
-The addon can be found here (https://addons.mozilla.org/en-US/firefox/addon/form-hack/). 
+## Technical stack
+- Manifest v2 with `storage`, `activeTab` permissions
+- Non-persistent background script
+- Content script matching `<all_urls>`
+
+The addon will be submitted to Mozilla soon to be added to the add-ons page.[1][2]
+
+[1](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local)
+[2](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Background_scripts)
